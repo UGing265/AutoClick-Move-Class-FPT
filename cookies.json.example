@@ -1,0 +1,44 @@
+[
+  {
+    "name": "ASP.NET_SessionId",
+    "value": "YOUR_SESSION_ID_HERE",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": ".AspNet.cookies",
+    "value": "YOUR_COOKIE_VALUE_HERE",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": "__AntiXsrfToken",
+    "value": "YOUR_TOKEN_HERE",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": "__utma",
+    "value": "XXXXXXXXXX.XXXXXXXXXX.XXXXXXXXXX.XXXXXXXXXX.XXXXXXXXXX.X",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": "__utmc",
+    "value": "XXXXXXXXXX",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": "__utmb",
+    "value": "XXXXXXXXXX.XX.XX.XXXXXXXXXX",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  },
+  {
+    "name": "cf_clearance",
+    "value": "YOUR_CF_CLEARANCE_HERE",
+    "domain": "fap.fpt.edu.vn",
+    "path": "/"
+  }
+]
