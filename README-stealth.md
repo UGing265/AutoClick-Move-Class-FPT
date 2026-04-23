@@ -1,4 +1,4 @@
-# FPT Portal Auto-Clicker (Stealth Mode)
+# AutoClick Move Class FPT (Stealth Mode)
 
 ## Requirements
 
