@@ -18,15 +18,41 @@ def load_cookies():
 
 
 def main():
+    print("Connecting to Chrome via CDP...")
+    cdp_url = "http://localhost:9222"
+
     cookies = load_cookies()
     print(f"Loaded {len(cookies)} cookies from {COOKIES_FILE}")
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        context = browser.new_context()
-        context.add_cookies(cookies)
+        try:
+            browser = p.chromium.connect_over_cdp(cdp_url)
+            print("Connected to Chrome successfully!")
+        except Exception as e:
+            print(f"Failed to connect: {e}")
+            return
 
-        page = context.new_page()
+        # Use first context (the debugged Chrome)
+        context = browser.contexts[0]
+
+        # Add our cookies to the session
+        context.add_cookies(cookies)
+        print(f"Added {len(cookies)} cookies to session")
+
+        # Find or create the target page
+        page = None
+        for ctx in browser.contexts:
+            for pg in ctx.pages:
+                if "MoveSubject" in pg.url and "devtools" not in pg.url:
+                    page = pg
+                    break
+            if page:
+                break
+
+        if not page:
+            page = context.new_page()
+
+        print(f"Using page: {page.url}")
         attempt = 0
 
         while True:
@@ -46,7 +72,7 @@ def main():
 
                 # SUCCESS: Class changed from IA1906
                 if old_class != "IA1906":
-                    print(f"\n✅ SUCCESS! Now in class: {old_class}")
+                    print(f"\n>>> SUCCESS! Now in class: {old_class}")
                     print("You can close the browser now.")
                     time.sleep(5)  # Give user 5 seconds to see
                     break
@@ -58,9 +84,9 @@ def main():
                 error_msg = page.locator("#ctl00_mainContent_lblMessage").inner_text()
                 if error_msg:
                     if "full" in error_msg.lower() or "35" in error_msg:
-                        print(f"  ❌ Class full (35 students) - will retry")
+                        print(f"  X Class full (35 students) - will retry")
                     else:
-                        print(f"  ℹ️ Message: {error_msg}")
+                        print(f"  Info: {error_msg}")
             except:
                 pass
 
@@ -72,7 +98,7 @@ def main():
                 print(f"  Click failed: {e}")
 
             # Wait before next attempt
-            print(f"  ⏳ Waiting {CLICK_INTERVAL}s before next click...")
+            print(f"  - Waiting {CLICK_INTERVAL}s before next click...")
             time.sleep(CLICK_INTERVAL)
 
         browser.close()
